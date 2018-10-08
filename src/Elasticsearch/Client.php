@@ -1281,6 +1281,29 @@ class Client
     /**
      * $params['id']   = (string) The search template ID (Required)
      *
+     * @param $params array Associative array of parameters
+     *
+     * @deprecated Should only be used with ElasticSearch 5.x
+     *
+     * @return array
+     */
+    public function putTemplate($params)
+    {
+        $id   = $this->extractArgument($params, 'id');
+        $body = $this->extractArgument($params, 'body');
+        /** @var callback $endpointBuilder */
+        $endpointBuilder = $this->endpoints;
+        /** @var \Elasticsearch\Endpoints\Template\Put $endpoint */
+        $endpoint = $endpointBuilder('Template\Put');
+        $endpoint->setID($id)
+            ->setBody($body)
+            ->setParams($params);
+        return $this->performRequest($endpoint);
+    }
+
+    /**
+     * $params['id']   = (string) The search template ID (Required)
+     *
      * @param array $params Associative array of parameters
      *
      * @return array
